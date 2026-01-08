@@ -29,6 +29,11 @@ rules:
       sticky: true
       output: "HDMI-1"
       set_workspace: 5
+      geometry:
+        x: 100
+        y: 100
+        width: 500
+        height: 500
 """)
         
         # Mock the IPC
@@ -44,7 +49,7 @@ rules:
 
     def test_apply_rules(self):
         # Setup mock data
-        view = ViewData(id=1, app_id="test_app", wset_index=1)
+        view = ViewData(id=1, app_id="test_app", wset_index=1, geometry={'x': 0, 'y': 0, 'width': 100, 'height': 100})
         output = OutputData(id=10, name="HDMI-1", wset_index=2)
         wset = WSetData(index=1, workspace=WorkspaceData(grid_width=3, grid_height=3))
         
@@ -61,6 +66,7 @@ rules:
         self.mock_socket.set_view_sticky.assert_called_with(1, True)
         self.mock_socket.send_view_to_wset.assert_called_with(1, 2) # Moved to HDMI-1's wset
         self.mock_socket.set_workspace.assert_called_with(2, 1, 1, None) # Workspace 5 -> (2, 1) in 3x3 grid
+        self.mock_socket.configure_view.assert_called_with(1, 100, 100, 500, 500)
 
 if __name__ == '__main__':
     unittest.main()

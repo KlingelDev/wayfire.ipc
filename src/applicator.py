@@ -102,6 +102,20 @@ class ConfigApplicator:
                 else:
                     print(f"  Warning: Could not find wset {view.wset_index} for view {view.id}")
 
+            if 'geometry' in action:
+                geo = action['geometry']
+                # If geometry is a string "x,y wxh" (legacy/alternative support)
+                if isinstance(geo, str):
+                    # parse string if needed, but we prioritize dict
+                    pass 
+                elif isinstance(geo, dict):
+                    x = geo.get('x', view.geometry['x'])
+                    y = geo.get('y', view.geometry['y'])
+                    w = geo.get('width', view.geometry['width'])
+                    h = geo.get('height', view.geometry['height'])
+                    print(f"  Setting geometry to {x},{y} {w}x{h}")
+                    self.ipc.socket.configure_view(view.id, x, y, w, h)
+
         except Exception as e:
             print(f"  Error applying action to view {view.id}: {e}")
 

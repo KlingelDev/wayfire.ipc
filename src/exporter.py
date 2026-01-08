@@ -39,7 +39,13 @@ class ConfigExporter:
                 'action': {
                     'output': view.output_name,
                     'maximize': view.fullscreen,
-                    'sticky': view.sticky
+                    'sticky': view.sticky,
+                    'geometry': {
+                        'x': view.geometry['x'],
+                        'y': view.geometry['y'],
+                        'width': view.geometry['width'],
+                        'height': view.geometry['height']
+                    }
                 }
             }
             # Only add if it's not already covered by a similar rule for the same app_id
