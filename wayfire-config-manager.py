@@ -13,14 +13,24 @@ if wayfire_path not in sys.path:
     sys.path.append(wayfire_path)
 
 from applicator import ConfigApplicator
+from exporter import ConfigExporter
 
 def main():
     parser = argparse.ArgumentParser(description='Wayfire Desktop Configuration Manager')
     parser.add_argument('--config', type=str, default='config.yaml', help='Path to config file')
     parser.add_argument('--apply', action='store_true', help='Apply the configuration once')
     parser.add_argument('--daemon', action='store_true', help='Apply configuration and watch for new windows')
+    parser.add_argument('--save', type=str, help='Snapshot current state and save to specified YAML file')
     
     args = parser.parse_args()
+
+    if args.save:
+        try:
+            exporter = ConfigExporter()
+            exporter.export(args.save)
+        except Exception as e:
+            print(f"Error saving configuration: {e}")
+        return
 
     if not os.path.exists(args.config):
         print(f"Error: Config file {args.config} not found.")

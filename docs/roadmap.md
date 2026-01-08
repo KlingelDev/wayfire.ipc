@@ -36,6 +36,7 @@ Create a Python-based utility to configure the Wayfire desktop environment decla
 *Objective: User interface and distribution.*
 
 - [x] **CLI Entry Point**: `wayfire-config-manager.py` with `--apply` and `--daemon` flags.
+- [x] **Snapshot Feature**: `--save` flag to export current state to YAML.
 - [x] **Documentation**: Usage guide in `README.md`.
 - [x] **Error Handling**: Added try-except blocks in `wayfire_ipc.py` and `src/applicator.py`.
 

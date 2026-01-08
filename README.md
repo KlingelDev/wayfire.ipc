@@ -75,6 +75,16 @@ To run as a daemon (continuously applying rules):
 ./wayfire-config-manager.py --config config.yaml --daemon
 ```
 
+### 3. Snapshot Current State
+
+To save your current desktop layout to a configuration file:
+
+```bash
+./wayfire-config-manager.py --save my_snapshot.yaml
+```
+
+This will record the resolution and position of all outputs, as well as the states of all open windows.
+
 ## Structure
 
 - `wayfire-config-manager.py`: Main entry point.
