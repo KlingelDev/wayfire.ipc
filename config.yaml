@@ -1,0 +1,36 @@
+# Wayfire Desktop Configuration Example
+
+# Autostart applications
+autostart:
+  - kitty
+  - firefox
+
+# Output configuration
+outputs:
+  HDMI-A-1:
+    mode: "2560x1440@60"
+    position: "0,0"
+    transform: "normal"
+    scale: 1.0
+  DP-1:
+    mode: "1680x1050@60"
+    position: "2560,0"
+
+# Window rules
+rules:
+  - match:
+      app_id: "firefox"
+    action:
+      output: "HDMI-A-1"
+      maximize: true
+  - match:
+      app_id: "kitty"
+    action:
+      output: "DP-1"
+      sticky: false
+
+# Workspace layout (number of workspaces in the grid)
+workspaces:
+  grid:
+    width: 3
+    height: 3

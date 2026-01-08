@@ -9,6 +9,8 @@ class ViewData:
   app_id:str = field(default_factory = str)
   base_geometry:dict = field(default_factory = dict)
   bbox:dict = field(default_factory = dict)
+  focusable:bool = field(default_factory = bool)
+  fullscreen:bool = field(default_factory = bool)
   geometry:dict = field(default_factory = dict)
   id:int = field(default_factory = int)
   last_focus_timestamp:str = field(default_factory = str)
@@ -26,7 +28,7 @@ class ViewData:
   tiled_edges:int = field(default_factory = int)
   title:str = field(default_factory = str)
   type:str = field(default_factory = str)
-  wset_index:int = field(default_factory = str)
+  wset_index:int = field(default_factory = int)
 
 class View:
   def __new__(cls):
@@ -34,5 +36,28 @@ class View:
 
   @staticmethod
   def new(*args, **kwargs):
-    return ViewData(*args, **kwargs)
+    if 'wset-index' in kwargs:
+        kwargs['wset_index'] = kwargs.pop('wset-index')
+    if 'app-id' in kwargs:
+        kwargs['app_id'] = kwargs.pop('app-id')
+    if 'base-geometry' in kwargs:
+        kwargs['base_geometry'] = kwargs.pop('base-geometry')
+    if 'last-focus-timestamp' in kwargs:
+        kwargs['last_focus_timestamp'] = kwargs.pop('last-focus-timestamp')
+    if 'max-size' in kwargs:
+        kwargs['max_size'] = kwargs.pop('max-size')
+    if 'min-size' in kwargs:
+        kwargs['min_size'] = kwargs.pop('min-size')
+    if 'output-id' in kwargs:
+        kwargs['output_id'] = kwargs.pop('output-id')
+    if 'output-name' in kwargs:
+        kwargs['output_name'] = kwargs.pop('output-name')
+    if 'tiled-edges' in kwargs:
+        kwargs['tiled_edges'] = kwargs.pop('tiled-edges')
+
+    # Strip unknown keys
+    allowed_keys = ViewData.__dataclass_fields__.keys()
+    filtered_kwargs = {k: v for k, v in kwargs.items() if k in allowed_keys}
+
+    return ViewData(*args, **filtered_kwargs)
 
